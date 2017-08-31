@@ -13,21 +13,28 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Home purchase ROI"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
+      numericInput("home_price","Purchase Price:",400000),
+      numericInput("downpay_pct","Down payment percent:", 20),
+      numericInput("int_rate_30","30 yr fixed loan interest rate (%):", 3.75),
+      numericInput("int_rate_15","15 yr fixed loan interest rate (%):", 3.00),
+      numericInput("tax_rate","Property Tax Rate (%):", 2.23),
+      numericInput("ins_rate", "Homeowner Insurance rate (%):", 1.00),
+      numericInput("growth_rate", "Est annual property value growth (%):", 3.33)
     ),
     
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("distPlot")
+      tabsetPanel(type = "tabs",
+                  tabPanel("15 yr fixed", plotOutput("plot_15")),
+                  tabPanel("30 yr fixed", plotOutput("plot_30")),
+                  tabPanel("Comparison", tableOutput("comp_table"))
+      )
     )
   )
 ))
+
